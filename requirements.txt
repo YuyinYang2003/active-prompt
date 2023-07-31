@@ -2,3 +2,6 @@ openai
 numpy
 torch
 scipy
+transformers
+accelerate
+sentencepiece
