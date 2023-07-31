@@ -187,15 +187,18 @@ def create_dataloader(args)->list:
 
 # read the generated/prepared prompt json file
 # return a string of prefix prompt before each question
-def create_input_prompt(args)->str:
+def create_input_prompt(args, qa_pairs)->str:
     x, y = [], []
-    
     with open(args.prompt_path, encoding="utf-8") as f:
         json_data = json.load(f)
         json_data = json_data["prompt"]
         for line in json_data:
             x.append(line["question"])
             y.append(line["pred_ans"])
+        if qa_pairs!=[]:
+            for qa_pair in qa_pairs:
+                x.append(qa_pair["question"])
+                y.append(qa_pair["answer"])            
 
     index_list = list(range(len(x)))
     

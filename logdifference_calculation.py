@@ -27,8 +27,8 @@ def main():
 
     dataloader = create_dataloader(args)
 
-    if args.dataset_size > 1000:
-        dataloader = dataloader[:1000] # only take 1000 questions randomly to annotate, randomness decided by seed
+    if args.dataset_size > args.qes_limit:
+        dataloader = dataloader[:args.qes_limit] # only take qes_limit questions randomly to annotate, randomness decided by seed
     print(f"Dataloader size: {len(dataloader)}")
 
 
@@ -36,7 +36,9 @@ def main():
         args.qes_limit = len(dataloader)
 
     start =time.time()
-    result = create_logdifference(args, dataloader)
+    result=[]
+    for i in range(len(dataloader)//args.qes_pair_num):
+        result+=create_logdifference(args, dataloader[i*args.qes_pair_num:(i+1)*args.qes_pair_num], result)   
     end = time.time()
     print('Total Execution Time: ', end - start, " seconds")
 
@@ -49,11 +51,12 @@ def main():
             pass
 
 
-def generate_logprob_qes(args, qes, model, tokenizer, with_validation: bool):
+def generate_logprob_qes(args, qes, model, tokenizer, qa_pairs, with_validation: bool):
     '''返回 logprob 标量值;
     TODO: 检查 output_path, 并把先前已经选出的 (x_0, y_0) 作为 context 接入 prompt.'''
+    #qa_pairs是已经选出来的对
     if with_validation:
-        prompt_text = create_input_prompt(args)
+        prompt_text = create_input_prompt(args, qa_pairs)
         prompt_text += qes["question"] + "\nA: " + qes["answer"]    # No `.` after answer
         logprob = calculate_logprob_ans(model, tokenizer, prompt_text)
     else:
@@ -81,29 +84,34 @@ def calculate_logprob_ans(model, tokenizer, input_prompt):
     return log_prob
 
 
-def create_logdifference(args, questions):
+def create_logdifference(args, questions, qa_pairs):
     '''The argument provided for `questions` is `dataloader`'''
     result = []
     model_path = args.model
-    if args.qes_limit > 0:
-        questions = questions[:args.qes_limit]
+    dataset_length=len(questions)
+    #if args.qes_limit > 0:
+    #    questions = questions[:args.qes_limit]
     
     model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True, device_map="auto") # 已经自动做了 device_map, 那就不需要 .to(device)
     tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True, use_fast=True)    # model_max_length=sys.maxsize
 
     for qes in tqdm(questions):
-        logprob_with_validation = generate_logprob_qes(args, qes=qes, model=model, tokenizer=tokenizer, with_validation=True)
-        logprob = generate_logprob_qes(args, qes=qes, model=model, tokenizer=tokenizer, with_validation=False)
+        logprob_with_validation = generate_logprob_qes(args, qes=qes, model=model, tokenizer=tokenizer, qa_pairs=qa_pairs, with_validation=True)
+        logprob = generate_logprob_qes(args, qes=qes, model=model, tokenizer=tokenizer, qa_pairs=[], with_validation=False)
         log_difference = (logprob_with_validation - logprob).item()
         result.append({
             "dataset_idx": qes["question_idx"],
+            "question": qes["question"],
+            "answer": qes["answer"],
             "log_difference": log_difference
         })
     
     # Now sort the results by log_difference from big to small
     result.sort(key=lambda x: -x["log_difference"])
-
-    return result
+    if args.qes_limit>0:
+        return result[:args.qes_each_time]
+    else:
+        return result[:5]
 
 
 def arg_parser():
@@ -116,13 +124,19 @@ def arg_parser():
         "--prompt_path", type=str, default="./validation_prompts/math_word_problems", help="prompts used to create Validation Set"
     )
     parser.add_argument(
-        "--model", type=str, default="baichuan-inc/Baichuan-13B-Chat", help="HuggingFace model used to calculate logprob"
+        "--model", type=str, default="baichuan-inc/Baichuan-7B", help="HuggingFace model used to calculate logprob"
     )
     parser.add_argument(
         "--output_dir", type=str, default="./logdifference_results", help="output directory for logdifference results"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=10, help="whether to limit the size of training set. if 0, the training set is unlimited and we examine all the samples in the dataloader."
+        "--qes_limit", type=int, default=70, help="the total number of qa pairs from the training dataset to choose from"
+    )
+    parser.add_argument(
+        "--qes_each_time", type=int, default=1, help="the number of qa pair we choose each time"
+    )
+    parser.add_argument(
+        "--qes_pair_num", type=int, default=14, help="the number of qa pairs we choose from each time"
     )
     
     args = parser.parse_args()
