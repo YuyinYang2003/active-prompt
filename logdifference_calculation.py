@@ -22,6 +22,15 @@ def main():
 
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+    
+    if args.validation_set_type == "split-training-set":
+        prompt=create_valset_loader(args)
+        path = f"{args.prompt_path}"
+        with open(path, 'w') as f:
+            try:
+                json.dump(prompt,f)
+            except:
+                pass
         
     set_random_seed(args.random_seed)
 
@@ -122,25 +131,25 @@ def arg_parser():
         "--dataset", type=str, default="gsm8k", choices=["gsm8k"], help="dataset to inference"
     )   # choices=["gsm8k","svamp", "aqua", "csqa", "last_letters", "strategyqa", "asdiv", "singleeq", "addsub", "multiarith"]
     parser.add_argument(
-        "--prompt_path", type=str, default="./validation_prompts/math_word_problems", help="prompts used to create Validation Set"
-    )
-    parser.add_argument(
         "--model", type=str, default="baichuan-inc/Baichuan-7B", help="HuggingFace model used to calculate logprob"
     )
     parser.add_argument(
         "--output_dir", type=str, default="./logdifference_results", help="output directory for logdifference results"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=70, help="the total number of qa pairs from the training dataset to choose from"
+        "--qes_limit", type=int, default=7470, help="the total number of qa pairs from the training dataset to choose from"
     )
     parser.add_argument(
         "--qes_each_time", type=int, default=1, help="the number of qa pair we choose each time"
     )
     parser.add_argument(
-        "--qes_pair_num", type=int, default=14, help="the number of qa pairs we choose from each time"
+        "--qes_pair_num", type=int, default=1494, help="the number of qa pairs we choose from each time"
     )
     parser.add_argument(
-        "--validation_set_type", type=str, default="non-task-specific", choices=["non-task-specific", "split-training-set"],help="the validation set we choose"
+        "--valset_num", type=int, default=8, help="the number of qa pairs in the initial validation set"
+    )
+    parser.add_argument(
+        "--validation_set_type", type=str, default="split-training-set", choices=["non-task-specific", "split-training-set"],help="the validation set we choose"
     )
     
     args = parser.parse_args()
@@ -158,6 +167,11 @@ def arg_parser():
         args.dataset_path = "./dataset/last_letters/last_letters_train2.json" # train data path
     else:
         raise ValueError("dataset is not properly defined ...")
+    
+    if args.validation_set_type == "non-task-specific":
+        args.prompt_path = "./validation_prompts/math_word_problems" # val set data path
+    elif args.validation_set_type == "split-training-set":
+        args.prompt_path = "./validation_prompts/training_set_split" # val set data path
     
     return args
 
