@@ -184,10 +184,21 @@ def create_dataloader(args)->list:
     print(f"dataloader size: {len(dataset)}")
     return dataset
 
+def create_valset_loader(args):
+    set_random_seed(args.random_seed)
+    questions, answers = load_data(args)
+    dataset = []
+    for idx in range(len(questions)):
+        dataset.append({"question":questions[idx], "pred_ans":answers[idx]})
+    random.shuffle(dataset)
+    datadict={}
+    datadict["prompt"]=dataset[:args.valset_num]
+    return datadict
+
 
 # read the generated/prepared prompt json file
 # return a string of prefix prompt before each question
-def create_input_prompt(args, qa_pairs, val_flag)->str:
+def create_input_prompt(args, qa_pairs, val_flag:bool)->str:
     x, y = [], []
     if val_flag:
         with open(args.prompt_path, encoding="utf-8") as f:
