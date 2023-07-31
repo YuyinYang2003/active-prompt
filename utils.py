@@ -9,9 +9,15 @@ import json
 import re
 from collections import Counter
 import time
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1,2,3,4,5,6,7"
+from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
+import sys
+import time
+from pathlib import Path
+from tqdm import tqdm
+import pdb
 
-# put your Openai API_KEY here
-API_KEY = ""
 # define for no solution if GPT cannot generate a valid solution
 # here define a magic number for the convenience of variance calculation
 NO_SOLUTION = '-10086'
@@ -181,30 +187,21 @@ def create_dataloader(args)->list:
 
 # read the generated/prepared prompt json file
 # return a string of prefix prompt before each question
-def create_input_prompt(args, cot_flag:bool)->str:
-    x, z, y = [], [], []
+def create_input_prompt(args)->str:
+    x, y = [], []
     
     with open(args.prompt_path, encoding="utf-8") as f:
         json_data = json.load(f)
         json_data = json_data["prompt"]
         for line in json_data:
             x.append(line["question"])
-            z.append(line["rationale"])
             y.append(line["pred_ans"])
 
     index_list = list(range(len(x)))
     
     prompt_text = ""
     for i in index_list:
-        if cot_flag:
-            if args.dataset == "strategyqa":
-                prompt_text += x[i] + " " + z[i] + " " + \
-                            "So the answer is" + " " + y[i] + ".\n\n"
-            else:
-                prompt_text += x[i] + " " + z[i] + " " + \
-                            args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
-        else:
-            prompt_text += x[i] + " " + args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
+        prompt_text += x[i] + " " + y[i] + "\n\n"
     return prompt_text
 
 
