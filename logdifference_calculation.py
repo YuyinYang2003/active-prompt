@@ -56,11 +56,12 @@ def generate_logprob_qes(args, qes, model, tokenizer, qa_pairs, with_validation:
     TODO: 检查 output_path, 并把先前已经选出的 (x_0, y_0) 作为 context 接入 prompt.'''
     #qa_pairs是已经选出来的对
     if with_validation:
-        prompt_text = create_input_prompt(args, qa_pairs)
+        prompt_text = create_input_prompt(args, qa_pairs, val_flag=True)
         prompt_text += qes["question"] + "\nA: " + qes["answer"]    # No `.` after answer
         logprob = calculate_logprob_ans(model, tokenizer, prompt_text)
     else:
-        prompt_text = qes["question"] + "\nA: " + qes["answer"]
+        prompt_text = create_input_prompt(args, qa_pairs, val_flag=False)
+        prompt_text += qes["question"] + "\nA: " + qes["answer"]
         logprob = calculate_logprob_ans(model, tokenizer, prompt_text)
     
     return logprob
@@ -137,6 +138,9 @@ def arg_parser():
     )
     parser.add_argument(
         "--qes_pair_num", type=int, default=14, help="the number of qa pairs we choose from each time"
+    )
+    parser.add_argument(
+        "--validation_set_type", type=str, default="non-task-specific", choices=["non-task-specific", "split-training-set"],help="the validation set we choose"
     )
     
     args = parser.parse_args()
