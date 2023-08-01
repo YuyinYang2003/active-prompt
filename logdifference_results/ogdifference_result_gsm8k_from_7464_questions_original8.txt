@@ -1,0 +1,50 @@
+[
+    {
+        "dataset_idx": 4554,
+        "question": "Michael ran a bakeshop and had to fill an order for 5 peach pies, 4 apple pies and 3 blueberry pies.  Each pie recipe called for 3 pounds of fruit each.  At the market, produce was on sale for $1.00 per pound for both blueberries and apples.  The peaches each cost $2.00 per pound.  How much will Michael spend at the market buying the fruit for his pie order?",
+        "answer": "51",
+        "log_difference": 2.8320155143737793
+    },
+    {
+        "dataset_idx": 7455,
+        "question": "Jim decides to open up a bike shop.  The most common repair he does is fixing bike tires.  He charges $20 for this and it cost him $5 in parts.  In one month Jim does 300 of these repairs.  He also does 2 more complex repairs for $300 each and cost $50 in parts.  He also sells $2000 profit worth of things from his retail shop.  If rent and other fixed expense for the shop is $4000 a month how much profit did the shop make?",
+        "answer": "3000",
+        "log_difference": 2.5914933681488037
+    },
+    {
+        "dataset_idx": 4404,
+        "question": "John sells 20 woodburning for $15 each.  The wood cost $100.  How much does he make in profit?",
+        "answer": "200",
+        "log_difference": 3.7868995666503906
+    },
+    {
+        "dataset_idx": 4348,
+        "question": "John buys 30 ducks for $10 each.  They weigh 4 pounds and he sells them for $5 per pound.  How much profit did he make?",
+        "answer": "300",
+        "log_difference": 4.701521873474121
+    },
+    {
+        "dataset_idx": 1339,
+        "question": "A plumber bought 10 meters of copper and 5 more meters of plastic pipe. If each meter cost $4, how much did the plumber spent on the copper and plastic pipe?",
+        "answer": "100",
+        "log_difference": 3.3156676292419434
+    },
+    {
+        "dataset_idx": 5771,
+        "question": "James buys 10 shirts and half as many pants.  The shirts cost $6 each and the pants cost $8 each.  How much did everything cost?",
+        "answer": "100",
+        "log_difference": 3.392725944519043
+    },
+    {
+        "dataset_idx": 3480,
+        "question": "Chelsea made 4 batches of cupcakes for the bake sale. The cupcakes took 20 minutes to bake and 30 minutes to ice per batch. How long did it take Chelsea to make the cupcakes?",
+        "answer": "200",
+        "log_difference": 3.616158962249756
+    },
+    {
+        "dataset_idx": 3193,
+        "question": "It takes 40 minutes to freeze ice cubes and 3 minutes per smoothie to turn them into smoothies once they're frozen. How long does it take to make 5 smoothies?",
+        "answer": "55",
+        "log_difference": 3.6344785690307617
+    }
+]
