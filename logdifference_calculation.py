@@ -27,6 +27,10 @@ def main():
     if args.validation_set_type == "split-training-set":
         dataset=create_dataloader(args)
         prompt={}
+        for i in dataset[-args.valset_num:]:
+            if "answer" in i:
+                i["pred_ans"] = i["answer"]
+                del i["answer"]
         prompt["prompt"]=dataset[-args.valset_num:]
         print(prompt)
         path = f"{args.prompt_path}"
@@ -54,7 +58,7 @@ def main():
     print('Total Execution Time: ', end - start, " seconds")
 
     # output the results
-    path = f"{args.output_dir}/logdifference_result_{args.dataset}_from_{args.qes_limit}_questions_nontasksecific.txt"
+    path = f"{args.output_dir}/logdifference_result_{args.dataset}_from_{args.qes_limit}_questions_trset_split.txt"
     with open(path, 'w') as f:
         try:
             f.write(json.dumps(result, indent=4))
