@@ -6,7 +6,7 @@ import numpy as np
 import json
 from scipy.stats import entropy
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1,2,3,4,5,6,7"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1,3,4,5,6,7,8"
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
 import sys
 import time
@@ -52,7 +52,7 @@ def main():
     print('Total Execution Time: ', end - start, " seconds")
 
     # output the results
-    path = f"{args.output_dir}/logdifference_result_{args.dataset}_from_{args.qes_limit}_questions.txt"
+    path = f"{args.output_dir}/logdifference_result_{args.dataset}_from_{args.qes_limit}_questions_nontasksecific.txt"
     with open(path, 'w') as f:
         try:
             f.write(json.dumps(result, indent=4))
@@ -66,11 +66,11 @@ def generate_logprob_qes(args, qes, model, tokenizer, qa_pairs, with_validation:
     #qa_pairs是已经选出来的对
     if with_validation:
         prompt_text = create_input_prompt(args, qa_pairs, val_flag=True)
-        prompt_text += qes["question"] + "\nA: " + qes["answer"]    # No `.` after answer
+        prompt_text += "Q: "+qes["question"] + "\nA: " + qes["answer"]    # No `.` after answer
         logprob = calculate_logprob_ans(model, tokenizer, prompt_text)
     else:
         prompt_text = create_input_prompt(args, qa_pairs, val_flag=False)
-        prompt_text += qes["question"] + "\nA: " + qes["answer"]
+        prompt_text += "Q: "+qes["question"] + "\nA: " + qes["answer"]
         logprob = calculate_logprob_ans(model, tokenizer, prompt_text)
     
     return logprob
@@ -137,13 +137,13 @@ def arg_parser():
         "--output_dir", type=str, default="./logdifference_results", help="output directory for logdifference results"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=7470, help="the total number of qa pairs from the training dataset to choose from"
+        "--qes_limit", type=int, default=7464, help="the total number of qa pairs from the training dataset to choose from"
     )
     parser.add_argument(
         "--qes_each_time", type=int, default=1, help="the number of qa pair we choose each time"
     )
     parser.add_argument(
-        "--qes_pair_num", type=int, default=1494, help="the number of qa pairs we choose from each time"
+        "--qes_pair_num", type=int, default=933, help="the number of qa pairs we choose from each time"
     )
     parser.add_argument(
         "--valset_num", type=int, default=8, help="the number of qa pairs in the initial validation set"

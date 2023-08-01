@@ -1,0 +1,50 @@
+[
+    {
+        "dataset_idx": 2337,
+        "question": "The P.T.O. decided to provide shirts for the elementary students for track and field day. Each grade was given a different color. 101 Kindergartners wore orange shirts that cost $5.80 each. 113 first graders wore yellow shirts that cost $5 each. 107 second graders wore blue shirts that cost $5.60 each. 108 third graders wore green shirts that cost $5.25 each. How much did the P.T.O. spend on shirts for field day?",
+        "answer": "2317",
+        "log_difference": 0.5432281494140625
+    },
+    {
+        "dataset_idx": 6499,
+        "question": "Tricia is a third of Amilia\u2019s age and Amilia is a quarter of Yorick\u2019s age. Yorick is twice Eugene\u2019s age and Khloe is a third of Eugene\u2019s age. Rupert is 10 years older than Khloe but 2 years younger than Vincent who is 22 years old. How old, in years, is Tricia?",
+        "answer": "5",
+        "log_difference": 0.2742464542388916
+    },
+    {
+        "dataset_idx": 4222,
+        "question": "Tania has five baskets containing a total of 58 fruits. There are 18 mangoes in one basket, 10 pears in another, 12 pawpaws in another and the last 2 contain the same number of kiwi and lemon respectively, how many lemons are there?",
+        "answer": "9",
+        "log_difference": 0.16375946998596191
+    },
+    {
+        "dataset_idx": 5224,
+        "question": "Hammond carves life-sized statues out of marble. His latest set of four statues started with an 80-pound block of marble. The first statue he carved weighed 10 pounds. The second statue weighed 18. The remaining two statues weighed the same amount. The marble he discarded after carving it off the statues weighed 22 pounds. How much did each of the remaining statues Hammond carved weigh?",
+        "answer": "15",
+        "log_difference": 0.116607666015625
+    },
+    {
+        "dataset_idx": 6991,
+        "question": "Luke started working on a 1000-piece jigsaw puzzle. The first day he worked on it, he put together 10% of the pieces. On the second day, he put together another 20% of the remaining pieces from the first day. On the third day, he put together 30% of the remaining pieces from the previous day. How many pieces does he have left to complete after the third day?",
+        "answer": "504",
+        "log_difference": 0.4394536018371582
+    },
+    {
+        "dataset_idx": 4645,
+        "question": "There are 50 marbles in a box which has a mixture of white, red and blue marbles. There were originally 20 white marbles and an equal number of red and blue marbles. Jack removes a number of marbles equal to double the difference between the number of white marbles and the number of blue marbles. How many marbles are left in the box?",
+        "answer": "40",
+        "log_difference": -0.07111465930938721
+    },
+    {
+        "dataset_idx": 1271,
+        "question": "Dorothy is 15 years old and wants to go to a museum with her family. Her family consists of her, her younger brother, her parents, and her grandfather. The regular ticket cost is $10. People 18 years old or younger have a discount of 30%. How much money will Dorothy have after this trip, when she currently has $70?",
+        "answer": "26",
+        "log_difference": 0.10726070404052734
+    },
+    {
+        "dataset_idx": 2640,
+        "question": "If a rectangle has a width of 42 inches and an area of 1638, how many rectangles of the same size would reach a length of 390 inches?",
+        "answer": "10",
+        "log_difference": -0.018551349639892578
+    }
+]

@@ -1,4 +1,3 @@
-{'idx': 1214, 'pred_ans': '2', 'GT': '5'}
-{'idx': 906, 'pred_ans': '6', 'GT': '10'}
-{'idx': 1252, 'pred_ans': '40', 'GT': '70'}
-{'idx': 599, 'pred_ans': '44', 'GT': '48'}
+{'idx': 773, 'pred_ans': '', 'GT': '10'}
+{'idx': 486, 'pred_ans': '', 'GT': '6'}
+{'idx': 150, 'pred_ans': '', 'GT': '4'}

@@ -1,0 +1,5 @@
+correct_num: 0
+total: 3
+Accuracy: 0.0
+Execution time: 5.486729145050049 seconds
+wrong questions: [{'idx': 773, 'pred_ans': '', 'GT': '10'}, {'idx': 486, 'pred_ans': '', 'GT': '6'}, {'idx': 150, 'pred_ans': '', 'GT': '4'}]

@@ -19,13 +19,15 @@ def main():
     # load dataset
     dataloader = create_dataloader(args)
 
+    #TODO1.2 新写了create_gpt_test_input_prompt函数，用于将选择出的qa对拼接成prompt
     if args.method == "few_shot":
-        input_prompt = create_input_prompt(args, cot_flag=False)
+        input_prompt = create_gpt_test_input_prompt(args)
     elif args.method == "few_shot_cot" or args.method == "auto_cot" or args.method == "active_cot":
-        input_prompt = create_input_prompt(args, cot_flag=True)
+        input_prompt = create_gpt_test_input_prompt(args)
     else:
         raise NotImplementedError
-
+    print(input_prompt)
+    
     start = time.time()
     print("Inference Start")
     if args.multipath != 1:
@@ -42,6 +44,16 @@ def main():
     print(f"Execution time: {end - start} seconds")
 
     print(f"wrong questions: {wrong_list}")
+
+    #将同样的结果输出的summary这个文件中去
+    with open("summary.txt", "w") as f:
+        f.write(f"correct_num: {correct}\n")
+        f.write(f"total: {args.qes_limit}\n")
+        f.write(f"Accuracy: {correct / args.qes_limit}\n")
+        end = time.time()
+        f.write(f"Execution time: {end - start} seconds\n")
+        f.write(f"wrong questions: {wrong_list}\n")
+        
     # save the wrong predictions
     if args.output_dir is not None:
         path = f"{args.output_dir}/wrong_{args.dataset}.txt"
@@ -92,6 +104,7 @@ def inference_cot(args, question_pool, qes_limit, given_prompt):
 
             # output current inference result (only works when self-consistency is not enable)
             if args.multipath == 1:
+
                 print('-' * 20)
                 print(f"Question number: {qes_num}")
                 print(f"Dataset index: {qes['question_idx']}")
@@ -125,10 +138,13 @@ def arg_parser():
         "--dataset", type=str, default="gsm8k", choices=["gsm8k","svamp", "aqua", "csqa", "asdiv", "last_letters", "addsub", "singleeq", "strategyqa", "multiarith"], help="dataset to inference"
     )
     parser.add_argument(
-        "--prompt_path", type=str, default="./inference_prompts/gsm8k_k=10", help="prompts to use"
+        "--prompt_source_path", type=str, default="./dataset/GSM8K/train.jsonl", help="prompts to use"
     )
     parser.add_argument(
-        "--model", type=str, default="code-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
+        "--prompt_num_path", type=str, default="./logdifference_results/logdifference_result_gsm8k_from_70_questions.txt", help="qa pairs generated"
+    )
+    parser.add_argument(
+        "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
     )
     parser.add_argument(
         "--method", type=str, default="active_cot", choices=["zero_shot", "zero_shot_cot", "few_shot", "few_shot_cot", "auto_cot", "active_cot"], help="method"
@@ -140,7 +156,7 @@ def arg_parser():
         "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=0, help="whether to limit test dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for testing."
+        "--qes_limit", type=int, default=3, help="whether to limit test dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for testing."
     )
     parser.add_argument(
         "--api_time_interval", type=float, default=1.0, help="how many seconds to sleep between each request"

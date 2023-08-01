@@ -10,7 +10,7 @@ import re
 from collections import Counter
 import time
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1,2,3,4,5,6,7"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1,3,4,5,6,7,8"
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
 import sys
 import time
@@ -18,6 +18,7 @@ from pathlib import Path
 from tqdm import tqdm
 import pdb
 
+API_KEY = "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"
 # define for no solution if GPT cannot generate a valid solution
 # here define a magic number for the convenience of variance calculation
 NO_SOLUTION = '-10086'
@@ -188,11 +189,11 @@ def create_valset_loader(args):
     set_random_seed(args.random_seed)
     questions, answers = load_data(args)
     dataset = []
-    for idx in range(len(questions)):
+    for idx in range(args.valset_num):
         dataset.append({"question":questions[idx], "pred_ans":answers[idx]})
     random.shuffle(dataset)
     datadict={}
-    datadict["prompt"]=dataset[:args.valset_num]
+    datadict["prompt"]=dataset
     return datadict
 
 
@@ -271,3 +272,25 @@ def find_most_frequent(arr, n):
     arr_acounts = Counter(arr[:n])
     most_frequent_item, frequency = arr_acounts.most_common(1)[0]
     return frequency, most_frequent_item
+
+def create_gpt_test_input_prompt(args)->str:
+    x, y, z= [], [], []
+    with open(args.prompt_num_path, encoding="utf-8") as f:
+        json_data = json.load(f)
+        for line in json_data:
+            z.append(line["dataset_idx"])
+        with open(args.prompt_source_path, encoding="utf-8") as f2:
+            for z_val in z:
+                print(z_val)
+                f2.seek(0)  # 重置文件指针到文件开头
+                for i, line in enumerate(f2):
+                    json_data = json.loads(line)
+                    if i==z_val:
+                        x.append(json_data["question"])
+                        y.append(json_data["answer"])            
+    index_list = list(range(len(x)))
+    prompt_text=""
+    for i in index_list:
+        prompt_text += "Q:" + x[i] + "\n"+ "A:"  + y[i] + "\n\n"
+    prompt_text+= "Let's think step by step."
+    return prompt_text
