@@ -185,18 +185,6 @@ def create_dataloader(args)->list:
     print(f"dataloader size: {len(dataset)}")
     return dataset
 
-def create_valset_loader(args):
-    set_random_seed(args.random_seed)
-    questions, answers = load_data(args)
-    dataset = []
-    for idx in range(args.valset_num):
-        dataset.append({"question":questions[idx], "pred_ans":answers[idx]})
-    random.shuffle(dataset)
-    datadict={}
-    datadict["prompt"]=dataset
-    return datadict
-
-
 # read the generated/prepared prompt json file
 # return a string of prefix prompt before each question
 def create_input_prompt(args, qa_pairs, val_flag:bool)->str:
@@ -266,12 +254,6 @@ def answer_extraction(args, responses):
     else:
         pred_ans = ""
     return pred_ans
-
-
-def find_most_frequent(arr, n):
-    arr_acounts = Counter(arr[:n])
-    most_frequent_item, frequency = arr_acounts.most_common(1)[0]
-    return frequency, most_frequent_item
 
 def create_gpt_test_input_prompt(args)->str:
     x, y, z= [], [], []
