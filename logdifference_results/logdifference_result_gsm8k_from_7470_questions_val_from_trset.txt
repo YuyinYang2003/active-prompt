@@ -1,0 +1,32 @@
+[
+    {
+        "dataset_idx": 2337,
+        "question": "The P.T.O. decided to provide shirts for the elementary students for track and field day. Each grade was given a different color. 101 Kindergartners wore orange shirts that cost $5.80 each. 113 first graders wore yellow shirts that cost $5 each. 107 second graders wore blue shirts that cost $5.60 each. 108 third graders wore green shirts that cost $5.25 each. How much did the P.T.O. spend on shirts for field day?",
+        "answer": "2317",
+        "log_difference": 4.530618667602539
+    },
+    {
+        "dataset_idx": 1121,
+        "question": "The difference in the number of pens that Alice and Clara each have matches their age difference. Alice has 60 pens and Clara has 2/5 times as many pens as Alice. If Alice's age is 20 and Clara is older than Alice, calculate Clara's age in 5 years to come.",
+        "answer": "61",
+        "log_difference": 2.8241963386535645
+    },
+    {
+        "dataset_idx": 343,
+        "question": "Kim's TV uses 125 watts of electricity per hour.  She runs it for 4 hours a day.  If electricity cost 14 cents per kw/h how many cents does her TV cost to run for a week?",
+        "answer": "49",
+        "log_difference": 3.2577831745147705
+    },
+    {
+        "dataset_idx": 2144,
+        "question": "Sharon\u2019s vacation rental has a Keurig coffee machine.  She will be there for 40 days.  She has 3 cups of coffee (3 coffee pods) every morning.  Her coffee pods come 30 pods to a box for $8.00.  How much will she spend on coffee to last her for the entire vacation?",
+        "answer": "32",
+        "log_difference": 2.862002372741699
+    },
+    {
+        "dataset_idx": 3193,
+        "question": "It takes 40 minutes to freeze ice cubes and 3 minutes per smoothie to turn them into smoothies once they're frozen. How long does it take to make 5 smoothies?",
+        "answer": "55",
+        "log_difference": 2.6600582599639893
+    }
+]
