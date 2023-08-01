@@ -292,5 +292,4 @@ def create_gpt_test_input_prompt(args)->str:
     prompt_text=""
     for i in index_list:
         prompt_text += "Q:" + x[i] + "\n"+ "A:"  + y[i] + "\n\n"
-    prompt_text+= "Let's think step by step."
     return prompt_text
