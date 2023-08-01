@@ -1,0 +1,50 @@
+[
+    {
+        "dataset_idx": 7239,
+        "question": "Scout delivers groceries on the weekends.  His base pay is $10.00 an hour.  He also earns a $5.00 tip per customer that he delivers groceries to.  On Saturday he worked 4 hours and delivered groceries to 5 people.  Sunday he worked 5 hours and delivered groceries to 8 people.  How much did he make over the weekend?",
+        "answer": "155",
+        "log_difference": 2.133647918701172
+    },
+    {
+        "dataset_idx": 3243,
+        "question": "Bella eats 6 apples a day. If during the week she consumes a third of the apples Grace picks, how many apples will Grace have after 6 weeks?",
+        "answer": "504",
+        "log_difference": 2.323698043823242
+    },
+    {
+        "dataset_idx": 3190,
+        "question": "Neil charges $5.00 to trim up each boxwood.  He charges $15.00 to trim it into a fancy shape.  The customer wants the entire 30 boxwood hedge trimmed up.  He has also asked for 4 specific boxwoods shaped into spheres.  How much will Neil charge?",
+        "answer": "210",
+        "log_difference": 2.1162819862365723
+    },
+    {
+        "dataset_idx": 3585,
+        "question": "Colt and Curt prepared 113 meals to be given away to a charity. Unexpectedly, Sole Mart provided 50 more meals. If Colt and Curt have given 85 meals already, how many more meals are left to be distributed?",
+        "answer": "78",
+        "log_difference": 2.3356518745422363
+    },
+    {
+        "dataset_idx": 4504,
+        "question": "An old car can drive 8 miles in one hour. After 5 hours of constant driving, the car needs to get cooled down which takes 1 hour. How many miles can this car drive in 13 hours?",
+        "answer": "88",
+        "log_difference": 2.152312755584717
+    },
+    {
+        "dataset_idx": 4780,
+        "question": "Last week, Arman worked 35 hours for 5 days at $10 per hour. This week, he will receive an increase of $0.5 per hour if he can work for 40 hours. Suppose he can work for 40 hours this week, how much will Arman receive for working two weeks?",
+        "answer": "770",
+        "log_difference": 2.1152005195617676
+    },
+    {
+        "dataset_idx": 3480,
+        "question": "Chelsea made 4 batches of cupcakes for the bake sale. The cupcakes took 20 minutes to bake and 30 minutes to ice per batch. How long did it take Chelsea to make the cupcakes?",
+        "answer": "200",
+        "log_difference": 2.8560855388641357
+    },
+    {
+        "dataset_idx": 3193,
+        "question": "It takes 40 minutes to freeze ice cubes and 3 minutes per smoothie to turn them into smoothies once they're frozen. How long does it take to make 5 smoothies?",
+        "answer": "55",
+        "log_difference": 2.751972198486328
+    }
+]
