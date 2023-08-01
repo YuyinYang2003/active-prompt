@@ -23,16 +23,18 @@ def main():
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     
+    set_random_seed(args.random_seed)
     if args.validation_set_type == "split-training-set":
-        prompt=create_valset_loader(args)
+        dataset=create_dataloader(args)
+        prompt={}
+        prompt["prompt"]=dataset[-args.valset_num:]
+        print(prompt)
         path = f"{args.prompt_path}"
         with open(path, 'w') as f:
             try:
                 json.dump(prompt,f)
             except:
                 pass
-        
-    set_random_seed(args.random_seed)
 
     dataloader = create_dataloader(args)
 
